@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
                 new CountDownHelper.OnTickListener() {
                     @Override
                     public void onTick(long remainingMs) {
-//                        long seconds = remainingMs / 1000;
                     }
                 },
                 new CountDownHelper.OnFinishListener() {

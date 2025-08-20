@@ -40,4 +40,13 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    //gson
+    implementation ("com.google.code.gson:gson:2.8.0")
+    //adjust
+    implementation ("com.adjust.sdk:adjust-android:4.33.5")
+    implementation ("com.android.installreferrer:installreferrer:2.2")
+    implementation ("com.adjust.sdk:adjust-android-webbridge:4.33.5")
+    implementation ("com.google.android.gms:play-services-ads-identifier:18.0.1")
+    implementation ("com.google.android.gms:play-services-appset:16.0.2")
 }
