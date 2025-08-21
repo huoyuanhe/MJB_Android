@@ -23,14 +23,10 @@ public class MyApplication extends Application {
 
     private static MyApplication instance;
     private static final String TAG = "MyApplication";
-
-    //    private static String TAG = "AndroidJsFun";
     private AdjustConfig config;
-
     public static MyApplication getInstance() {
         return instance;
     }
-
     public static Context getAppContext() {
         return instance.getApplicationContext();
     }
@@ -39,14 +35,12 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-
         initializeApp();
     }
 
     private void initializeApp() {
         // 初始化第三方SDK
         initializeThirdPartyLibraries();
-
     }
 
     private void initializeThirdPartyLibraries() {
@@ -59,6 +53,7 @@ public class MyApplication extends Application {
         config.setOnEventTrackingSucceededListener(new OnEventTrackingSucceededListener() {
             @Override
             public void onFinishedEventTrackingSucceeded(AdjustEventSuccess eventSuccessResponseData) {
+                //AD埋点事件发送成功log信息输出
                 Log.e(TAG, eventSuccessResponseData.toString());
             }
         });
@@ -75,6 +70,9 @@ public class MyApplication extends Application {
         registerActivityLifecycleCallbacks(new AdjustLifecycleCallbacks());
     }
 
+    /**
+     * AD生命周期
+     */
     private static final class AdjustLifecycleCallbacks implements ActivityLifecycleCallbacks {
         @Override
         public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {

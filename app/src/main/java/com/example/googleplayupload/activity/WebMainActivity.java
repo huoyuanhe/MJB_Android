@@ -1,16 +1,12 @@
 package com.example.googleplayupload.activity;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
-import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -19,15 +15,17 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.googleplayupload.MyApplication;
 import com.example.googleplayupload.R;
 import com.example.googleplayupload.utils.AndroidJsUtils;
+import com.example.googleplayupload.utils.DeviceInfoUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class WebMainActivity extends AppCompatActivity {
     private Context context;
@@ -51,10 +49,15 @@ public class WebMainActivity extends AppCompatActivity {
         //初始化布局
         WebView webView = findViewById(R.id.webview);
         initWebView(webView);
+
     }
 
     private void initWebView(WebView webView) {
-//        webView.setWebChromeClient(new WebChromeClient());
+        //获取手机信息 加密
+        String ciphertextString = DeviceInfoUtil.getHeader(context);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("data", ciphertextString);
+
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setAllowFileAccess(true);
@@ -67,19 +70,29 @@ public class WebMainActivity extends AppCompatActivity {
         webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
-//        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.addJavascriptInterface(new AndroidJsUtils(this), "Android");
-//        webView.loadUrl("file:///android_asset/aaa/index.html");//加载A面项目文件
-        webView.loadUrl("https://mex1190.33mex44.com/m/register");//测试B面
+//        webView.loadUrl("file:///android_asset/sjdfnjngj/index.html");//加载A面项目文件
+//        webView.loadUrl("https://mex1190.33mex44.com/m/register");//测试B面
+        webView.loadUrl("https://app.fifaone.online/gate", headers);//正式 添加header数据
 
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
         webView.setWebChromeClient(new WebChromeClient() {
 
             @Override
             public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
+                //检测 客服 TG外跳
                 WebView tempWebView = new WebView(context);
                 tempWebView.setWebViewClient(new WebViewClient() {
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                        //处理外跳
                         openSystemBrowser(request.getUrl());
                         return true;
                     }
@@ -98,6 +111,10 @@ public class WebMainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * 外跳
+     * @param uri
+     */
     private void openSystemBrowser(Uri uri) {
         Intent intent;
         try {

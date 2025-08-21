@@ -2,6 +2,9 @@ package com.example.googleplayupload.utils;
 
 import android.os.CountDownTimer;
 
+/**
+ * 启动页倒计时
+ */
 public class CountDownHelper extends CountDownTimer {
 
     private final OnTickListener onTickListener;

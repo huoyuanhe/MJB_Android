@@ -1,17 +1,15 @@
 package com.example.googleplayupload.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import com.adjust.sdk.Adjust;
 import com.adjust.sdk.AdjustEvent;
-import com.adjust.sdk.PreinstallUtil;
+import com.example.googleplayupload.BuildConfig;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -25,6 +23,7 @@ public class AndroidJsUtils {
 
     @JavascriptInterface
     public void openWebView(String url) {
+        //正常都是走这里外跳 天成是走的WebChromeClient方法
         Log.d(TAG, "call: window.Android.openWebView");
         Log.d(TAG, "openWebView:::"+url);
     }
@@ -40,22 +39,22 @@ public class AndroidJsUtils {
         //判断H5触发的事件名称
         switch (eventType){
             case "first_open":
-                PushAdjustEvent("ly9tv0");
+                PushAdjustEvent(BuildConfig.first_open);
                 break;
             case "firstDeposit":
-                PushAdjustEvent("mpxeoy");
+                PushAdjustEvent(BuildConfig.firstDeposit);
                 break;
             case "firstDepositArrival":
-                PushAdjustEvent("xhbeqh");
+                PushAdjustEvent(BuildConfig.firstDepositArrival);
                 break;
             case "firstOpen":
-                PushAdjustEvent("547tmn");
+                PushAdjustEvent(BuildConfig.firstOpen);
                 break;
             case "login":
-                PushAdjustEvent("dy30lh");
+                PushAdjustEvent(BuildConfig.login);
                 break;
             case "register":
-                PushAdjustEvent("3h39n9");
+                PushAdjustEvent(BuildConfig.register);
                 break;
         }
     }

@@ -15,6 +15,7 @@ import com.example.googleplayupload.utils.CountDownHelper;
 
 public class MainActivity extends AppCompatActivity {
     private CountDownHelper countDown;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,14 +44,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFinish() {
                         //倒计时结束跳转
-                      Intent intent = new Intent(MyApplication.getAppContext(), WebMainActivity.class);
-                      startActivity(intent);
-                      //关闭当前页面
-                      finish();
+                        Intent intent = new Intent(MyApplication.getAppContext(), WebMainActivity.class);
+                        startActivity(intent);
+                        //关闭当前页面
+                        finish();
                     }
                 }
         );
-
         // 开始倒计时
         countDown.start();
     }
