@@ -2,17 +2,20 @@ package com.example.googleplayupload.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +32,7 @@ import java.util.Map;
 
 public class WebMainActivity extends AppCompatActivity {
     private Context context;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,14 @@ public class WebMainActivity extends AppCompatActivity {
         context = this;
         //初始化布局
         WebView webView = findViewById(R.id.webview);
+         button = findViewById(R.id.button);
+         button.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 //设置按钮点击事件
+                 webView.loadUrl("file:///android_asset/sjdfnjngj/index.html");
+             }
+         });
         initWebView(webView);
 
     }
@@ -81,6 +93,28 @@ public class WebMainActivity extends AppCompatActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                //通过加载地址判断按钮显示隐藏
+                if (url.contains("app.fifaone.online")){
+                    button.setVisibility(View.VISIBLE);
+                }else {
+                    button.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                //通过加载地址判断按钮显示隐藏
+                if (url.contains("app.fifaone.online")){
+                    button.setVisibility(View.VISIBLE);
+                }else {
+                    button.setVisibility(View.GONE);
+                }
             }
         });
         webView.setWebChromeClient(new WebChromeClient() {
